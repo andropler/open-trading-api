@@ -152,6 +152,9 @@ class LeanClient:
         initial_cash: float = 100_000_000,
         market_type: str = "krx",
         risk_management: Optional[Dict[str, Any]] = None,
+        commission_rate: Optional[float] = None,
+        tax_rate: Optional[float] = None,
+        slippage: Optional[float] = None,
     ) -> BacktestResult:
         """전략 ID로 백테스트 실행
         
@@ -200,6 +203,9 @@ class LeanClient:
                 initial_capital=initial_cash,
                 market_type=market_type,
                 params=params,
+                commission_rate=commission_rate,
+                tax_rate=tax_rate,
+                slippage=slippage,
             )
         except ValueError as e:
             raise AlgorithmError(f"전략 코드 생성 오류: {e}")

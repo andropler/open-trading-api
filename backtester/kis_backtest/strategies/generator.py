@@ -105,6 +105,9 @@ def generate_strategy(
     initial_capital: float = 100_000_000,
     market_type: str = "krx",
     params: Optional[Dict[str, Any]] = None,
+    commission_rate: Optional[float] = None,
+    tax_rate: Optional[float] = None,
+    slippage: Optional[float] = None,
 ) -> str:
     """전략 코드 생성 편의 함수
 
@@ -138,5 +141,23 @@ def generate_strategy(
         market_type=market_type,
         params=params,
     )
+
+    # 거래비용/슬리피지 오버라이드
+    if commission_rate is not None or tax_rate is not None or slippage is not None:
+        cfg_kwargs = {"market": market_type, "initial_capital": initial_capital}
+        if commission_rate is not None:
+            cfg_kwargs["commission_rate"] = commission_rate
+        if tax_rate is not None:
+            cfg_kwargs["tax_rate"] = tax_rate
+        if slippage is not None:
+            cfg_kwargs["slippage"] = slippage
+        config = CodeGenConfig(**cfg_kwargs)
+        from kis_backtest.codegen.generator import LeanCodeGenerator
+        custom_gen = LeanCodeGenerator(generator.schema, config=config)
+        return custom_gen.generate(
+            symbols=symbols,
+            start_date=start_date,
+            end_date=end_date,
+        )
 
     return generator.generate()

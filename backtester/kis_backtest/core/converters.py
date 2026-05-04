@@ -262,13 +262,14 @@ def _convert_condition_from_preset(
     Condition/CompositeCondition 객체를 스키마로 변환합니다.
     """
     from kis_backtest.core.condition import Condition, CompositeCondition
-    
+    from kis_backtest.core.indicator import Indicator, ScaledIndicator
+
     if isinstance(condition, CompositeCondition):
         return CompositeConditionSchema(
             logic=condition.logic,
             conditions=[_convert_condition_from_preset(c) for c in condition.conditions],
         )
-    
+
     # 왼쪽 피연산자 (Indicator)
     left = condition.left
     if hasattr(left, 'alias'):
@@ -277,28 +278,38 @@ def _convert_condition_from_preset(
     else:
         indicator = str(left)
         indicator_output = "value"
-    
-    # 오른쪽 피연산자 (Indicator 또는 숫자)
+
+    # 오른쪽 피연산자 (Indicator, ScaledIndicator, 또는 숫자)
     right = condition.right
     compare_to: Optional[str] = None
     compare_output = "value"
+    compare_scalar: Optional[float] = None
+    compare_operation: Optional[str] = None
     value: Optional[float] = None
-    
-    if hasattr(right, 'alias'):
+
+    if isinstance(right, ScaledIndicator):
+        # MA * 0.9 같은 스케일된 지표 비교
+        compare_to = right.indicator.alias
+        compare_output = getattr(right.indicator, 'output', 'value')
+        compare_scalar = float(right.scalar)
+        compare_operation = right.operation
+    elif isinstance(right, Indicator) or hasattr(right, 'alias'):
         compare_to = right.alias
         compare_output = getattr(right, 'output', 'value')
     elif isinstance(right, (int, float)):
         value = float(right)
-    
+
     # 연산자 변환
     operator = _normalize_operator(condition.operator)
-    
+
     return ConditionSchema(
         operator=operator,
         indicator=indicator,
         indicator_output=indicator_output,
         compare_to=compare_to,
         compare_output=compare_output,
+        compare_scalar=compare_scalar,
+        compare_operation=compare_operation,
         value=value,
     )
 
