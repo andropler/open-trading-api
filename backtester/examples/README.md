@@ -30,6 +30,7 @@ uv sync
 | `portfolio_analysis.py` | 포트폴리오 분석 | `--example basic` | O |
 | `optimization.py` | 파라미터 최적화 | `--example basic` | O (실전 권장) |
 | `live_trading.py` | 실시간 매매 | `--example position` | O |
+| `kr_intraday_breakout_v41.py` | alpha-hunter KR 1H Breakout V4.1 포팅 백테스트 | 인자 없음 | X |
 
 ---
 
@@ -202,6 +203,18 @@ uv run python examples/live_trading.py --example position
   [035420]  50주  평균 256,000원 → 현재 252,500원    -1.37%
   [051910]  16주  평균 335,281원 → 현재 365,500원    +9.01%
 ```
+
+---
+
+### kr_intraday_breakout_v41.py — KR 1H Breakout V4.1 포팅
+
+```bash
+uv run python examples/kr_intraday_breakout_v41.py --start-date 2025-01-01 --end-date 2026-03-31
+```
+
+- `alpha-hunter/data/kr_stocks/1h` parquet 데이터셋을 직접 읽어 V4.1 로직을 재현합니다.
+- 결과는 `examples/output/kr_intraday_breakout_v41/` 아래에 HTML 리포트와 JSON 요약으로 저장됩니다.
+- `--export-lean-artifacts` 옵션을 사용하면 `.lean-workspace/data/equity/krx/hourly` 와 ranking JSON도 함께 생성됩니다.
 
 ---
 

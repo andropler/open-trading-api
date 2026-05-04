@@ -56,6 +56,12 @@ from kis_backtest.dsl.helpers import (
     OBV, VWAP,
     Price,
 )
+from kis_backtest.custom import (
+    BreakoutTrade,
+    BreakoutV41Params,
+    KRIntradayBreakoutV41Backtester,
+    detect_default_parquet_data_dir,
+)
 
 # Aliases for backward compatibility
 MOM = MOMENTUM
@@ -133,6 +139,11 @@ __all__ = [
     "ATR", "BB", "BollingerBands",
     "OBV", "VWAP",
     "Price",
+    # Custom backtests
+    "BreakoutTrade",
+    "BreakoutV41Params",
+    "KRIntradayBreakoutV41Backtester",
+    "detect_default_parquet_data_dir",
     # Core schemas
     "StrategySchema",
     "IndicatorSchema",
