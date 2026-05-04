@@ -1,0 +1,130 @@
+{
+  "strategy_id": "kr_5m_composite_mbull2060",
+  "name": "KR 5m Composite m_bull_20_60",
+  "status": "final_candidate",
+  "source_research_repo": "alpha-hunter",
+  "timeframes": {
+    "signal": "5m",
+    "execution_validation": "1m",
+    "market_regime": "1d"
+  },
+  "portfolio": {
+    "initial_equity_krw": 10000000,
+    "max_positions": 1,
+    "cost_pct_base": 0.55
+  },
+  "market_regime": {
+    "id": "m_bull_20_60",
+    "symbol": "069500",
+    "lookahead_safe": true,
+    "uses_previous_day_only": true,
+    "conditions": [
+      "previous_close > previous_sma20",
+      "previous_sma20 > previous_sma60",
+      "previous_5d_return > 0"
+    ]
+  },
+  "entry_families": [
+    {
+      "id": "reclaim_strict",
+      "description": "Post-surge 5m VWAP reclaim",
+      "candidate": {
+        "recent_return_window": 3,
+        "recent_return_min": 0.25,
+        "recent_return_max": 0.5,
+        "gap_min": 0.0,
+        "gap_max": 0.08,
+        "min_price": 5000
+      },
+      "confirmation": {
+        "reclaim_end_hhmm": 1030,
+        "volume_average_window_5m_bars": 80,
+        "volume_multiple": 2.0,
+        "allowed_entry_hhmm": [935, 940, 945, 955, 1000, 1005, 1010, 1015, 1025]
+      },
+      "exit": {
+        "stop_loss_pct": 3.0,
+        "take_profit_pct": 10.0,
+        "trail_activation_pct": 5.0,
+        "trail_pct": 4.0,
+        "exit_hhmm": 1430
+      }
+    },
+    {
+      "id": "orb_event_quality",
+      "description": "Event-quality opening range breakout",
+      "candidate": {
+        "candidate_mode": "event",
+        "min_event_trading_value_krw": 10000000000,
+        "event_volume_multiple": 1.5,
+        "min_price": 5000,
+        "gap_min": 0.0,
+        "gap_max": 0.03
+      },
+      "confirmation": {
+        "opening_range_start_hhmm": 900,
+        "opening_range_end_hhmm": 930,
+        "allowed_entry_hhmm_range": [1000, 1020],
+        "volume_pace_multiple": 3.0
+      },
+      "exit": {
+        "stop_loss_pct": 3.0,
+        "take_profit_pct": 8.0,
+        "trail_activation_pct": 4.0,
+        "trail_pct": 3.0,
+        "exit_hhmm": 1430
+      }
+    },
+    {
+      "id": "native_close_top15",
+      "description": "Native 5m liquidity-ranked close breakout",
+      "candidate": {
+        "top_n_stocks": 15,
+        "min_price": 5000
+      },
+      "confirmation": {
+        "breakout_lookback_5m_bars": 12,
+        "breakout_on_close": true,
+        "volume_mode": "same_time",
+        "volume_multiple": 2.0,
+        "allowed_entry_hhmm": [1025]
+      },
+      "exit": {
+        "stop_loss_pct": 5.0,
+        "take_profit_pct": 10.0,
+        "trail_activation_pct": 2.0,
+        "trail_pct": 1.5,
+        "max_hold_days": 1
+      }
+    }
+  ],
+  "validated_performance": {
+    "period_start": "2025-04-25",
+    "period_end": "2026-04-29",
+    "signals": 89,
+    "trades": 69,
+    "total_return_pct": 161.8,
+    "pf_055": 2.56,
+    "pf_100": 1.922,
+    "max_drawdown_pct": -13.4,
+    "source_trades": {
+      "reclaim": 26,
+      "orb": 29,
+      "native": 14
+    }
+  },
+  "cost_stress": [
+    {"cost_pct": 0.55, "pf": 2.56, "total_return_pct": 161.8, "mdd_pct": -13.4},
+    {"cost_pct": 1.0, "pf": 1.922, "total_return_pct": 110.6, "mdd_pct": -16.6},
+    {"cost_pct": 1.25, "pf": 1.64, "total_return_pct": 82.2, "mdd_pct": -20.1},
+    {"cost_pct": 1.5, "pf": 1.398, "total_return_pct": 53.8, "mdd_pct": -27.3},
+    {"cost_pct": 2.0, "pf": 1.025, "total_return_pct": -3.0, "mdd_pct": -50.5}
+  ],
+  "discarded_candidates": [
+    "reclaim_loose",
+    "orb_recent_fast",
+    "native_high_scalp",
+    "no_regime_baseline"
+  ],
+  "caution": "Fixed m_bull_20_60 is the selected final candidate, but walk-forward performance was lower than fixed in-sample performance. Forward-test before live trading."
+}
