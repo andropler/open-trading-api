@@ -26,6 +26,8 @@ from typing import Any, Optional
 import numpy as np
 import pandas as pd
 
+from ..models import BacktestResult, Order, OrderSide, OrderStatus, OrderType
+
 
 INITIAL_EQUITY = 10_000_000
 DEFAULT_ALPHA_ROOT = Path(__file__).resolve().parents[4] / "alpha-hunter"
@@ -355,3 +357,195 @@ class KR5mCompositeMBull2060Backtester:
         if self.result is None:
             raise ValueError("run() must be called before result_dict()")
         return asdict(self.result)
+
+    def build_equity_curve(self, initial_equity: Optional[float] = None) -> pd.Series:
+        """Build a daily equity curve compatible with the HTML report generator."""
+        initial_cash = float(initial_equity if initial_equity is not None else self.params.initial_equity)
+        if self.trades.empty:
+            return pd.Series([initial_cash], index=pd.DatetimeIndex([pd.Timestamp(self.params.start_date)]))
+
+        ordered = self.trades.copy()
+        ordered["exit_timestamp"] = pd.to_datetime(ordered["exit_timestamp"])
+        ordered = ordered.sort_values("exit_timestamp")
+        curve = initial_cash + ordered.groupby(ordered["exit_timestamp"].dt.normalize())["pnl_krw"].sum().cumsum()
+
+        start = pd.Timestamp(self.params.start_date)
+        end = pd.Timestamp(self.params.end_date)
+        index = pd.date_range(start=start, end=end, freq="D")
+        equity = pd.Series(np.nan, index=index, dtype=float)
+        equity.iloc[0] = initial_cash
+        equity.update(curve)
+        equity = equity.ffill()
+        return equity
+
+    def build_orders(self) -> list[Order]:
+        """Convert completed trades into buy/sell orders for the common report table."""
+        if self.trades.empty:
+            return []
+
+        orders: list[Order] = []
+        for idx, row in self.trades.reset_index(drop=True).iterrows():
+            entry_dt = pd.Timestamp(row["entry_timestamp"]).to_pydatetime()
+            exit_dt = pd.Timestamp(row["exit_timestamp"]).to_pydatetime()
+            ticker = str(row["ticker"]).zfill(6)
+            shares = int(row["shares"])
+            position_size = float(row["position_size"])
+            commission_half = position_size * (self.params.cost_pct / 100.0) / 2.0
+            orders.append(
+                Order(
+                    id=f"{self.STRATEGY_ID}-buy-{idx}",
+                    symbol=ticker,
+                    side=OrderSide.BUY,
+                    order_type=OrderType.MARKET,
+                    quantity=shares,
+                    price=float(row["entry_price"]),
+                    filled_quantity=shares,
+                    average_price=float(row["entry_price"]),
+                    status=OrderStatus.FILLED,
+                    created_at=entry_dt,
+                    updated_at=entry_dt,
+                    commission=commission_half,
+                )
+            )
+            orders.append(
+                Order(
+                    id=f"{self.STRATEGY_ID}-sell-{idx}",
+                    symbol=ticker,
+                    side=OrderSide.SELL,
+                    order_type=OrderType.MARKET,
+                    quantity=shares,
+                    price=float(row["exit_price"]),
+                    filled_quantity=shares,
+                    average_price=float(row["exit_price"]),
+                    status=OrderStatus.FILLED,
+                    created_at=exit_dt,
+                    updated_at=exit_dt,
+                    pnl=float(row["pnl_krw"]),
+                    commission=commission_half,
+                )
+            )
+        return orders
+
+    def to_backtest_result(self) -> BacktestResult:
+        """Convert the completed custom simulation to open-trading-api BacktestResult."""
+        if self.result is None:
+            raise ValueError("run() must be called before to_backtest_result()")
+
+        initial_cash = float(self.params.initial_equity)
+        equity_curve = self.build_equity_curve(initial_cash)
+        daily_returns = equity_curve.pct_change().dropna()
+        running_max = equity_curve.cummax()
+        drawdown = equity_curve / running_max - 1.0
+        max_drawdown = abs(float(drawdown.min())) if not drawdown.empty else 0.0
+
+        total_return = float(equity_curve.iloc[-1] - initial_cash)
+        total_return_pct = float(equity_curve.iloc[-1] / initial_cash - 1.0)
+        period_days = max((pd.Timestamp(self.params.end_date) - pd.Timestamp(self.params.start_date)).days, 1)
+        cagr = float((equity_curve.iloc[-1] / initial_cash) ** (365.0 / period_days) - 1.0) if equity_curve.iloc[-1] > 0 else 0.0
+
+        if not daily_returns.empty and daily_returns.std(ddof=0) > 0:
+            sharpe_ratio = float((daily_returns.mean() / daily_returns.std(ddof=0)) * np.sqrt(252))
+        else:
+            sharpe_ratio = 0.0
+
+        downside = daily_returns[daily_returns < 0]
+        if not daily_returns.empty and not downside.empty and downside.std(ddof=0) > 0:
+            sortino_ratio = float((daily_returns.mean() / downside.std(ddof=0)) * np.sqrt(252))
+        else:
+            sortino_ratio = 0.0
+
+        if self.trades.empty:
+            win_rate = 0.0
+            profit_factor = 0.0
+            average_win = 0.0
+            average_loss = 0.0
+            total_fees = 0.0
+            unique_symbols: list[str] = []
+            trade_summaries: list[dict[str, Any]] = []
+        else:
+            pnl_krw = self.trades["pnl_krw"].astype(float)
+            wins = self.trades[pnl_krw > 0]
+            losses = self.trades[pnl_krw <= 0]
+            gross_profit = float(wins["pnl_krw"].sum())
+            gross_loss = float(abs(losses["pnl_krw"].sum()))
+            win_rate = float(len(wins) / len(self.trades))
+            profit_factor = float(gross_profit / gross_loss) if gross_loss > 0 else (float("inf") if gross_profit > 0 else 0.0)
+            average_win = float(wins["pnl_pct"].mean()) if not wins.empty else 0.0
+            average_loss = float(losses["pnl_pct"].mean()) if not losses.empty else 0.0
+            total_fees = float(self.trades["position_size"].sum() * (self.params.cost_pct / 100.0))
+            unique_symbols = sorted(str(ticker).zfill(6) for ticker in self.trades["ticker"].unique())
+            trade_summaries = [
+                {
+                    "date": str(row["date"]),
+                    "symbol": str(row["ticker"]).zfill(6),
+                    "source": row["source"],
+                    "variant": row["variant"],
+                    "entry_timestamp": str(row["entry_timestamp"]),
+                    "exit_timestamp": str(row["exit_timestamp"]),
+                    "entry_price": float(row["entry_price"]),
+                    "exit_price": float(row["exit_price"]),
+                    "quantity": int(row["shares"]),
+                    "net_pnl_krw": float(row["pnl_krw"]),
+                    "net_pnl_pct": float(row["pnl_pct"] - self.params.cost_pct),
+                    "exit_reason": row["exit_reason"],
+                }
+                for _, row in self.trades.iterrows()
+            ]
+
+        turnover = float((self.trades["position_size"].sum() * 2.0 / initial_cash) * 100.0) if not self.trades.empty else 0.0
+        annual_std = float(daily_returns.std(ddof=0) * np.sqrt(252)) if not daily_returns.empty else 0.0
+
+        raw_statistics = {
+            "Strategy Name": self.STRATEGY_NAME,
+            "Net Profit": total_return_pct * 100.0,
+            "Compounding Annual Return": cagr * 100.0,
+            "Drawdown": max_drawdown * 100.0,
+            "Sharpe Ratio": sharpe_ratio,
+            "Sortino Ratio": sortino_ratio,
+            "Average Win": average_win,
+            "Average Loss": average_loss,
+            "Win Rate": win_rate * 100.0,
+            "Total Fees": total_fees,
+            "Portfolio Turnover": turnover,
+            "Annual Standard Deviation": annual_std,
+            "Annual Variance": annual_std ** 2,
+            "Profit Factor @ Cost": profit_factor,
+            "Signal Count": len(self.selected_signals),
+            "Missed Entries": self.missed_entries,
+            "Reclaim Trades": self.result.summary.get("reclaim_trades", 0),
+            "ORB Trades": self.result.summary.get("orb_trades", 0),
+            "Native Trades": self.result.summary.get("native_trades", 0),
+            "Params": {
+                "market_rule": self.params.market_rule,
+                "base_config": self.params.base_config_label,
+                "signal_timeframe": "5m",
+                "execution_timeframe": "1m",
+                "cost_pct": self.params.cost_pct,
+            },
+        }
+
+        return BacktestResult(
+            success=True,
+            run_id=f"{self.STRATEGY_ID}_{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            strategy_id=self.STRATEGY_ID,
+            symbols=unique_symbols,
+            start_date=self.params.start_date,
+            end_date=self.params.end_date,
+            total_return=total_return,
+            total_return_pct=total_return_pct,
+            cagr=cagr,
+            sharpe_ratio=sharpe_ratio,
+            sortino_ratio=sortino_ratio,
+            max_drawdown=max_drawdown,
+            total_trades=int(len(self.trades)),
+            win_rate=win_rate,
+            profit_factor=profit_factor,
+            average_win=average_win,
+            average_loss=average_loss,
+            equity_curve=equity_curve,
+            daily_returns=daily_returns,
+            orders=self.build_orders(),
+            trades=trade_summaries,
+            raw_statistics=raw_statistics,
+            duration_seconds=self.last_run_seconds,
+        )

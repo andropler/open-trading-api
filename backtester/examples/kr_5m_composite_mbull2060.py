@@ -10,6 +10,7 @@ import argparse
 import json
 from pathlib import Path
 
+from kis_backtest import LeanClient
 from kis_backtest.custom.kr_5m_composite_mbull2060 import (
     CompositeMBull2060Params,
     KR5mCompositeMBull2060Backtester,
@@ -48,6 +49,38 @@ def main() -> None:
 
     backtester = KR5mCompositeMBull2060Backtester(params=params)
     result = backtester.run()
+    report_result = backtester.to_backtest_result()
+    output_dir = Path(params.output_dir)
+    report_path = LeanClient().report(
+        result=report_result,
+        output_path=output_dir / "kr_5m_composite_mbull2060_report.html",
+        title="KR 5m Composite m_bull_20_60 Backtest",
+        subtitle=f"{params.start_date} ~ {params.end_date} | 5m signals, 1m execution",
+    )
+    summary_path = output_dir / "kr_5m_composite_mbull2060_summary.json"
+    summary_path.write_text(
+        json.dumps(
+            {
+                "strategy_id": report_result.strategy_id,
+                "start_date": report_result.start_date,
+                "end_date": report_result.end_date,
+                "symbols": len(report_result.symbols),
+                "signals": result.summary["signal_count"],
+                "trades": report_result.total_trades,
+                "total_return_pct": round(report_result.total_return_pct * 100, 2),
+                "cagr_pct": round(report_result.cagr * 100, 2),
+                "max_drawdown_pct": round(report_result.max_drawdown * 100, 2),
+                "sharpe_ratio": round(report_result.sharpe_ratio, 3),
+                "profit_factor": report_result.profit_factor,
+                "win_rate_pct": round(report_result.win_rate * 100, 2),
+                "report_path": str(report_path),
+                "artifacts": result.artifacts,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
     summary = result.summary
     print(
         f"{backtester.STRATEGY_ID} signals={summary['signal_count']} trades={summary['trades']} "
@@ -58,6 +91,8 @@ def main() -> None:
     )
     if result.artifacts:
         print(json.dumps(result.artifacts, indent=2, ensure_ascii=False), flush=True)
+    print(f"Report: {report_path}", flush=True)
+    print(f"Summary: {summary_path}", flush=True)
 
 
 if __name__ == "__main__":
