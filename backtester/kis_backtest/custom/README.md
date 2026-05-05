@@ -12,6 +12,8 @@
 세 전략 모두 **로컬 parquet 데이터**(`/Users/benjamin/personal_workspace/shared_data/kr_stocks/`)를
 직접 읽어 in-process로 시뮬레이션합니다. Lean Docker 의존성 없음.
 
+> **비판적 검증 보고서**: [VALIDATION.md](./VALIDATION.md) — 과적합·OOS·비용 stress·시기 robustness 검증 결과 및 10점 만점 점수.
+
 ---
 
 ## 1. KR 1H Breakout V4.1 (`kr_intraday_breakout_v41`)
