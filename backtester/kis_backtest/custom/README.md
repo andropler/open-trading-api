@@ -12,7 +12,9 @@
 세 전략 모두 **로컬 parquet 데이터**(`/Users/benjamin/personal_workspace/shared_data/kr_stocks/`)를
 직접 읽어 in-process로 시뮬레이션합니다. Lean Docker 의존성 없음.
 
-> **비판적 검증 보고서**: [VALIDATION.md](./VALIDATION.md) — 과적합·OOS·비용 stress·시기 robustness 검증 결과 및 10점 만점 점수.
+> **비판적 검증 보고서**:
+> - [VALIDATION.md](./VALIDATION.md) (v1, 2026-05-05) — 과적합·OOS·비용 stress·시기 robustness 검증 결과 및 10점 만점 점수.
+> - [VALIDATION_v2.md](./VALIDATION_v2.md) (v2, 2026-05-05) — v1의 5개 후속 검증 이슈 정량 측정 + V4.1 파라미터 그리드 192 + universe 그리드 32. **점수 갱신**: V4.1 4→**6**, Composite 5→**6**, ORB 2→2.
 
 ---
 
@@ -94,7 +96,11 @@ in-sample에서는 통과했으나 walk-forward에서 약화되어 제외.
 
 ---
 
-## 3. KR 5m Opening Range Breakout (`kr_intraday_orb_5m`)
+## 3. KR 5m Opening Range Breakout (`kr_intraday_orb_5m`) — ⚠️ Baseline Only
+
+> ⚠️ **단독 운용 부적합.** VALIDATION_v2.md §5 결정. cost 0.30% 이상에서 손실 전략이며,
+> 한국 실비용 0.4~0.5% 환경에서 PF 0.5~0.7로 명백한 마이너스. 본 모듈은 5m Composite의
+> `orb_event_quality` 패밀리(이벤트 거래대금 + regime 필터 결합 시 PF 2+) 비교용 baseline으로만 사용.
 
 가장 단순한 5분봉 ORB 단일 패밀리. `kr_intraday_breakout.py`의 1H 패턴을 5m로 단순화.
 

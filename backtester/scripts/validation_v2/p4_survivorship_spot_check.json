@@ -1,0 +1,217 @@
+{
+  "data_status": {
+    "daily_total_files": 2800,
+    "daily_files_ending_before_2024": 0,
+    "interpretation": "daily 데이터셋에 폐지 종목이 사실상 0 — 진짜 폐지 종목은 누락된 것으로 추정"
+  },
+  "known_delisted_check": [
+    {
+      "ticker": "117930",
+      "name": "한진해운",
+      "year": 2017,
+      "reason": "default/delist",
+      "in_daily": false,
+      "files": {
+        "plain_exists": false,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": null
+    },
+    {
+      "ticker": "067250",
+      "name": "STX조선해양",
+      "year": 2018,
+      "reason": "court receivership",
+      "in_daily": false,
+      "files": {
+        "plain_exists": false,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": null
+    },
+    {
+      "ticker": "012170",
+      "name": "키위미디어그룹",
+      "year": 2019,
+      "reason": "delist",
+      "in_daily": true,
+      "files": {
+        "plain_exists": true,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 156485,
+        "last30_close_min": 1244.0,
+        "last30_close_max": 1693.0
+      }
+    },
+    {
+      "ticker": "017900",
+      "name": "한일이화",
+      "year": 2020,
+      "reason": "delist (예시)",
+      "in_daily": true,
+      "files": {
+        "plain_exists": true,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 1583699,
+        "last30_close_min": 1763.0,
+        "last30_close_max": 3395.0
+      }
+    },
+    {
+      "ticker": "035000",
+      "name": "지스마트글로벌",
+      "year": 2022,
+      "reason": "audit failure",
+      "in_daily": true,
+      "files": {
+        "plain_exists": true,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 22612,
+        "last30_close_min": 8170.0,
+        "last30_close_max": 8790.0
+      }
+    },
+    {
+      "ticker": "192240",
+      "name": "에스맥(예전 코드)",
+      "year": 2023,
+      "reason": "관리/폐지",
+      "in_daily": false,
+      "files": {
+        "plain_exists": false,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": null
+    },
+    {
+      "ticker": "027410",
+      "name": "BGF리테일(과거)",
+      "year": 0,
+      "reason": "spin-off legacy",
+      "in_daily": true,
+      "files": {
+        "plain_exists": true,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": {
+        "first_date": "2014-05-19",
+        "last_date": "2026-03-25",
+        "rows": 2908,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 246567,
+        "last30_close_min": 4000.0,
+        "last30_close_max": 4525.0
+      }
+    },
+    {
+      "ticker": "119650",
+      "name": "KC코트렐",
+      "year": 2022,
+      "reason": "delist (예시)",
+      "in_daily": true,
+      "files": {
+        "plain_exists": true,
+        "underscore_files": [],
+        "ks_files": []
+      },
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 30,
+        "last30_mean_vol": 0,
+        "last30_close_min": 918.0,
+        "last30_close_max": 918.0
+      }
+    }
+  ],
+  "ghost_data_check": [
+    {
+      "ticker": "001520",
+      "name": "동양",
+      "note": "2013 회생 → 2014 매각, 상장 유지",
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 1591103,
+        "last30_close_min": 810.0,
+        "last30_close_max": 1026.0
+      }
+    },
+    {
+      "ticker": "006840",
+      "name": "카프로",
+      "note": "2018 화학사업 종료, 거래 미미",
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 22684,
+        "last30_close_min": 7620.0,
+        "last30_close_max": 8900.0
+      }
+    },
+    {
+      "ticker": "003070",
+      "name": "대한해운",
+      "note": "2011 법정관리 → SM 인수",
+      "meta": {
+        "first_date": "2014-01-02",
+        "last_date": "2026-03-25",
+        "rows": 3000,
+        "last30_zero_vol_days": 0,
+        "last30_mean_vol": 102533,
+        "last30_close_min": 9010.0,
+        "last30_close_max": 11970.0
+      }
+    }
+  ],
+  "period_specific_notes": {
+    "1H_period": "2023-03 ~ 2026-04",
+    "5m_period": "2025-04 ~ 2026-04",
+    "delist_cases_in_period_estimate": "2023-03~2026-04 동안 KRX 대형 상장폐지 사례는 매우 적음 — 한진해운/STX조선/키움미디어 등 큰 사례는 모두 그 이전. 최근 3년 폐지 종목은 대부분 시총 100억 미만 소형주이며 거래대금 상위 15종(V4.1) / 거래대금 상위 10~15종(Composite) 유니버스에 거의 진입 못 함.",
+    "v41_universe_filter": "거래대금 상위 15종, 최저가 5,000원 — active large-cap 위주",
+    "composite_universe_filter": "이벤트성 거래대금 100억+, 최저가 5,000원, gap 0~8% — active 종목 위주",
+    "orb_universe_filter": "거래대금 상위 10종, 최저가 3,000원 — 비교적 덜 보수적"
+  },
+  "conclusions": [
+    "1) daily 데이터셋은 진짜 폐지 종목을 거의 포함하지 않음 — 한진해운/STX조선 등 큰 사례 모두 누락. 동양/카프로 등은 회생 후 살아있어 누락 아님.",
+    "2) '폐지 포함 vs 미포함' PF 차이의 직접 측정은 이 데이터셋으로는 불가 — 외부 데이터(KRX 폐지 종목 archive) 필요.",
+    "3) V4.1 1H 백테스트 기간(2023-03~)과 5m 백테스트 기간(2025-04~) 동안 KRX 대형 폐지 사례는 매우 적음. 큰 사례는 모두 그 이전 발생. 따라서 시기적으로 survivorship 영향이 작을 가능성.",
+    "4) V4.1/Composite의 universe 필터(거래대금 상위 N + 최저가 5,000원)는 active large-cap 위주라 폐지 위험이 본질적으로 낮은 종목군. 폐지 영향은 v1 추정 '5~15%'보다 보수적으로 잡으면 1~5% 수준일 가능성.",
+    "5) ORB(최저가 3,000원, 상위 10종)는 다른 두 전략보다 폐지 위험 노출 큼. 단 본 데이터셋에선 폐지 종목 자체가 적어 측정 불가.",
+    "6) v1의 '인트라데이 결과가 5~15% 부풀려져 있을 가능성'은 **외부 데이터로 검증 전까지 추정**. 본 작업의 V4.1 점수 4/10, Composite 6/10에 직접 반영하지 않고 '하방 리스크' 라벨로만 기록."
+  ],
+  "recommendations": [
+    "외부 데이터로 KRX 폐지 종목(2014~) 일별 OHLCV 확보 → daily 백테스트로 직접 측정",
+    "당분간은 V4.1/Composite의 universe 필터에 의존. 단, ORB 단독 운용 시 폐지 위험 추가 고려"
+  ]
+}

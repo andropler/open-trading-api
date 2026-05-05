@@ -1,5 +1,12 @@
 """KR 5분봉 Opening Range Breakout (ORB) 백테스터.
 
+⚠️ BASELINE ONLY — 단독 운용 부적합.
+    VALIDATION.md(v1) §4 / VALIDATION_v2.md §5 검증 결과 cost 0.30% 이상에서 손실 전략이며,
+    한국 실비용 0.4~0.5% 환경에서 PF 0.5~0.7로 명백한 마이너스. 시기 의존성도 큼
+    (2025 PF 0.77 vs 2026 PF 2.64).
+    본 모듈은 5m Composite의 `orb_event_quality` 패밀리(이벤트 거래대금 + regime 필터 결합 시 PF 2+)
+    비교용 baseline / 후속 연구용으로만 사용한다.
+
 5분봉 데이터를 로컬 parquet에서 직접 읽어 vectorized 시뮬레이션을 수행한다.
 LeanClient를 우회하므로 1554종목 sweep도 합리적 시간에 가능.
 

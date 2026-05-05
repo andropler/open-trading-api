@@ -1,0 +1,124 @@
+{
+  "data_dir": "/Users/benjamin/personal_workspace/shared_data/kr_stocks/1h",
+  "params_default": {
+    "breakout_lookback": 4,
+    "vol_multiplier": 2.0,
+    "trail_pct": 0.5,
+    "sl_pct": 5.0,
+    "top_n_stocks": 15
+  },
+  "initial_equity": 10000000,
+  "max_positions": 3,
+  "train_period": {
+    "start": "2023-03-01",
+    "end": "2024-12-31"
+  },
+  "test_period": {
+    "start": "2025-01-01",
+    "end": "2026-03-31"
+  },
+  "train_results": [
+    {
+      "cost_pct": 0.3,
+      "trades": 225,
+      "win_rate_pct": 61.78,
+      "total_return_pct": 64.99,
+      "max_drawdown_pct": 10.48,
+      "profit_factor": 1.478,
+      "sharpe_ratio": 1.517,
+      "cagr_pct": 31.31
+    },
+    {
+      "cost_pct": 0.55,
+      "trades": 225,
+      "win_rate_pct": 57.33,
+      "total_return_pct": 36.17,
+      "max_drawdown_pct": 12.21,
+      "profit_factor": 1.276,
+      "sharpe_ratio": 0.979,
+      "cagr_pct": 18.29
+    },
+    {
+      "cost_pct": 0.8,
+      "trades": 225,
+      "win_rate_pct": 52.0,
+      "total_return_pct": 14.38,
+      "max_drawdown_pct": 14.88,
+      "profit_factor": 1.113,
+      "sharpe_ratio": 0.479,
+      "cagr_pct": 7.58
+    },
+    {
+      "cost_pct": 1.0,
+      "trades": 225,
+      "win_rate_pct": 47.56,
+      "total_return_pct": -1.1,
+      "max_drawdown_pct": 17.52,
+      "profit_factor": 0.991,
+      "sharpe_ratio": 0.057,
+      "cagr_pct": -0.6
+    },
+    {
+      "cost_pct": 1.5,
+      "trades": 225,
+      "win_rate_pct": 40.0,
+      "total_return_pct": -31.8,
+      "max_drawdown_pct": 37.85,
+      "profit_factor": 0.739,
+      "sharpe_ratio": -1.016,
+      "cagr_pct": -18.79
+    }
+  ],
+  "test_results": [
+    {
+      "cost_pct": 0.3,
+      "trades": 179,
+      "win_rate_pct": 63.69,
+      "total_return_pct": 98.36,
+      "max_drawdown_pct": 13.53,
+      "profit_factor": 1.946,
+      "sharpe_ratio": 2.717,
+      "cagr_pct": 73.44
+    },
+    {
+      "cost_pct": 0.55,
+      "trades": 179,
+      "win_rate_pct": 60.34,
+      "total_return_pct": 71.73,
+      "max_drawdown_pct": 14.52,
+      "profit_factor": 1.693,
+      "sharpe_ratio": 2.196,
+      "cagr_pct": 54.46
+    },
+    {
+      "cost_pct": 0.8,
+      "trades": 179,
+      "win_rate_pct": 58.66,
+      "total_return_pct": 49.1,
+      "max_drawdown_pct": 15.52,
+      "profit_factor": 1.476,
+      "sharpe_ratio": 1.673,
+      "cagr_pct": 37.87
+    },
+    {
+      "cost_pct": 1.0,
+      "trades": 179,
+      "win_rate_pct": 56.42,
+      "total_return_pct": 32.1,
+      "max_drawdown_pct": 16.29,
+      "profit_factor": 1.311,
+      "sharpe_ratio": 1.204,
+      "cagr_pct": 25.08
+    },
+    {
+      "cost_pct": 1.5,
+      "trades": 179,
+      "win_rate_pct": 52.51,
+      "total_return_pct": -2.31,
+      "max_drawdown_pct": 20.06,
+      "profit_factor": 0.978,
+      "sharpe_ratio": 0.0,
+      "cagr_pct": -1.86
+    }
+  ]
+}

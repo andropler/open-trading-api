@@ -1,0 +1,1151 @@
+{
+  "cost_pct": 0.55,
+  "train_period": {
+    "start": "2023-03-01",
+    "end": "2024-12-31"
+  },
+  "test_period": {
+    "start": "2025-01-01",
+    "end": "2026-03-31"
+  },
+  "elapsed_seconds": 811.6,
+  "n_combos": 32,
+  "top10_by_robustness": [
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 73,
+        "win_pct": 68.49,
+        "ret_pct": 40.98,
+        "mdd_pct": 7.34,
+        "pf": 2.2005,
+        "sharpe": 1.601
+      },
+      "test": {
+        "trades": 47,
+        "win_pct": 65.96,
+        "ret_pct": 26.55,
+        "mdd_pct": 10.15,
+        "pf": 2.3477,
+        "sharpe": 1.889
+      },
+      "robustness": 2.2717
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 62,
+        "win_pct": 66.13,
+        "ret_pct": 27.12,
+        "mdd_pct": 6.91,
+        "pf": 1.922,
+        "sharpe": 1.311
+      },
+      "test": {
+        "trades": 38,
+        "win_pct": 68.42,
+        "ret_pct": 21.42,
+        "mdd_pct": 4.84,
+        "pf": 2.3045,
+        "sharpe": 1.786
+      },
+      "robustness": 2.0959
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 7,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 79,
+        "win_pct": 68.35,
+        "ret_pct": 47.6,
+        "mdd_pct": 4.96,
+        "pf": 2.4231,
+        "sharpe": 1.802
+      },
+      "test": {
+        "trades": 47,
+        "win_pct": 61.7,
+        "ret_pct": 10.34,
+        "mdd_pct": 10.06,
+        "pf": 1.4166,
+        "sharpe": 0.832
+      },
+      "robustness": 1.7879
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 117,
+        "win_pct": 64.96,
+        "ret_pct": 47.74,
+        "mdd_pct": 7.11,
+        "pf": 1.8388,
+        "sharpe": 1.586
+      },
+      "test": {
+        "trades": 73,
+        "win_pct": 57.53,
+        "ret_pct": 24.27,
+        "mdd_pct": 12.69,
+        "pf": 1.599,
+        "sharpe": 1.337
+      },
+      "robustness": 1.7105
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 144,
+        "win_pct": 57.64,
+        "ret_pct": 22.52,
+        "mdd_pct": 11.85,
+        "pf": 1.2584,
+        "sharpe": 0.781
+      },
+      "test": {
+        "trades": 124,
+        "win_pct": 64.52,
+        "ret_pct": 69.03,
+        "mdd_pct": 11.65,
+        "pf": 2.1365,
+        "sharpe": 2.565
+      },
+      "robustness": 1.5839
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 154,
+        "win_pct": 65.58,
+        "ret_pct": 68.85,
+        "mdd_pct": 6.22,
+        "pf": 1.9045,
+        "sharpe": 1.886
+      },
+      "test": {
+        "trades": 104,
+        "win_pct": 60.58,
+        "ret_pct": 18.0,
+        "mdd_pct": 13.58,
+        "pf": 1.3255,
+        "sharpe": 1.017
+      },
+      "robustness": 1.5631
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 7,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 149,
+        "win_pct": 60.4,
+        "ret_pct": 39.35,
+        "mdd_pct": 9.6,
+        "pf": 1.4901,
+        "sharpe": 1.249
+      },
+      "test": {
+        "trades": 120,
+        "win_pct": 63.33,
+        "ret_pct": 36.35,
+        "mdd_pct": 10.22,
+        "pf": 1.612,
+        "sharpe": 1.757
+      },
+      "robustness": 1.5487
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 3,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 137,
+        "win_pct": 57.66,
+        "ret_pct": 26.43,
+        "mdd_pct": 11.58,
+        "pf": 1.3206,
+        "sharpe": 0.907
+      },
+      "test": {
+        "trades": 119,
+        "win_pct": 63.87,
+        "ret_pct": 46.41,
+        "mdd_pct": 12.55,
+        "pf": 1.6981,
+        "sharpe": 1.981
+      },
+      "robustness": 1.4857
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 225,
+        "win_pct": 57.33,
+        "ret_pct": 36.17,
+        "mdd_pct": 12.21,
+        "pf": 1.2764,
+        "sharpe": 0.979
+      },
+      "test": {
+        "trades": 179,
+        "win_pct": 60.34,
+        "ret_pct": 71.73,
+        "mdd_pct": 14.52,
+        "pf": 1.6934,
+        "sharpe": 2.196
+      },
+      "robustness": 1.4556
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 199,
+        "win_pct": 65.33,
+        "ret_pct": 80.09,
+        "mdd_pct": 7.33,
+        "pf": 1.7405,
+        "sharpe": 1.907
+      },
+      "test": {
+        "trades": 135,
+        "win_pct": 59.26,
+        "ret_pct": 14.8,
+        "mdd_pct": 16.5,
+        "pf": 1.1808,
+        "sharpe": 0.695
+      },
+      "robustness": 1.407
+    }
+  ],
+  "all": [
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 73,
+        "win_pct": 68.49,
+        "ret_pct": 40.98,
+        "mdd_pct": 7.34,
+        "pf": 2.2005,
+        "sharpe": 1.601
+      },
+      "test": {
+        "trades": 47,
+        "win_pct": 65.96,
+        "ret_pct": 26.55,
+        "mdd_pct": 10.15,
+        "pf": 2.3477,
+        "sharpe": 1.889
+      },
+      "robustness": 2.2717
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 62,
+        "win_pct": 66.13,
+        "ret_pct": 27.12,
+        "mdd_pct": 6.91,
+        "pf": 1.922,
+        "sharpe": 1.311
+      },
+      "test": {
+        "trades": 38,
+        "win_pct": 68.42,
+        "ret_pct": 21.42,
+        "mdd_pct": 4.84,
+        "pf": 2.3045,
+        "sharpe": 1.786
+      },
+      "robustness": 2.0959
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 7,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 79,
+        "win_pct": 68.35,
+        "ret_pct": 47.6,
+        "mdd_pct": 4.96,
+        "pf": 2.4231,
+        "sharpe": 1.802
+      },
+      "test": {
+        "trades": 47,
+        "win_pct": 61.7,
+        "ret_pct": 10.34,
+        "mdd_pct": 10.06,
+        "pf": 1.4166,
+        "sharpe": 0.832
+      },
+      "robustness": 1.7879
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 117,
+        "win_pct": 64.96,
+        "ret_pct": 47.74,
+        "mdd_pct": 7.11,
+        "pf": 1.8388,
+        "sharpe": 1.586
+      },
+      "test": {
+        "trades": 73,
+        "win_pct": 57.53,
+        "ret_pct": 24.27,
+        "mdd_pct": 12.69,
+        "pf": 1.599,
+        "sharpe": 1.337
+      },
+      "robustness": 1.7105
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 144,
+        "win_pct": 57.64,
+        "ret_pct": 22.52,
+        "mdd_pct": 11.85,
+        "pf": 1.2584,
+        "sharpe": 0.781
+      },
+      "test": {
+        "trades": 124,
+        "win_pct": 64.52,
+        "ret_pct": 69.03,
+        "mdd_pct": 11.65,
+        "pf": 2.1365,
+        "sharpe": 2.565
+      },
+      "robustness": 1.5839
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 154,
+        "win_pct": 65.58,
+        "ret_pct": 68.85,
+        "mdd_pct": 6.22,
+        "pf": 1.9045,
+        "sharpe": 1.886
+      },
+      "test": {
+        "trades": 104,
+        "win_pct": 60.58,
+        "ret_pct": 18.0,
+        "mdd_pct": 13.58,
+        "pf": 1.3255,
+        "sharpe": 1.017
+      },
+      "robustness": 1.5631
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 7,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 149,
+        "win_pct": 60.4,
+        "ret_pct": 39.35,
+        "mdd_pct": 9.6,
+        "pf": 1.4901,
+        "sharpe": 1.249
+      },
+      "test": {
+        "trades": 120,
+        "win_pct": 63.33,
+        "ret_pct": 36.35,
+        "mdd_pct": 10.22,
+        "pf": 1.612,
+        "sharpe": 1.757
+      },
+      "robustness": 1.5487
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 3,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 137,
+        "win_pct": 57.66,
+        "ret_pct": 26.43,
+        "mdd_pct": 11.58,
+        "pf": 1.3206,
+        "sharpe": 0.907
+      },
+      "test": {
+        "trades": 119,
+        "win_pct": 63.87,
+        "ret_pct": 46.41,
+        "mdd_pct": 12.55,
+        "pf": 1.6981,
+        "sharpe": 1.981
+      },
+      "robustness": 1.4857
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 225,
+        "win_pct": 57.33,
+        "ret_pct": 36.17,
+        "mdd_pct": 12.21,
+        "pf": 1.2764,
+        "sharpe": 0.979
+      },
+      "test": {
+        "trades": 179,
+        "win_pct": 60.34,
+        "ret_pct": 71.73,
+        "mdd_pct": 14.52,
+        "pf": 1.6934,
+        "sharpe": 2.196
+      },
+      "robustness": 1.4556
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 199,
+        "win_pct": 65.33,
+        "ret_pct": 80.09,
+        "mdd_pct": 7.33,
+        "pf": 1.7405,
+        "sharpe": 1.907
+      },
+      "test": {
+        "trades": 135,
+        "win_pct": 59.26,
+        "ret_pct": 14.8,
+        "mdd_pct": 16.5,
+        "pf": 1.1808,
+        "sharpe": 0.695
+      },
+      "robustness": 1.407
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 111,
+        "win_pct": 63.06,
+        "ret_pct": 26.9,
+        "mdd_pct": 7.67,
+        "pf": 1.4682,
+        "sharpe": 1.062
+      },
+      "test": {
+        "trades": 64,
+        "win_pct": 59.38,
+        "ret_pct": 11.61,
+        "mdd_pct": 15.4,
+        "pf": 1.309,
+        "sharpe": 0.789
+      },
+      "robustness": 1.384
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 3,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 156,
+        "win_pct": 64.1,
+        "ret_pct": 65.86,
+        "mdd_pct": 7.34,
+        "pf": 1.7825,
+        "sharpe": 1.833
+      },
+      "test": {
+        "trades": 98,
+        "win_pct": 60.2,
+        "ret_pct": 6.85,
+        "mdd_pct": 19.54,
+        "pf": 1.1292,
+        "sharpe": 0.462
+      },
+      "robustness": 1.3826
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 7,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 231,
+        "win_pct": 60.17,
+        "ret_pct": 45.14,
+        "mdd_pct": 11.94,
+        "pf": 1.3576,
+        "sharpe": 1.211
+      },
+      "test": {
+        "trades": 181,
+        "win_pct": 58.01,
+        "ret_pct": 37.72,
+        "mdd_pct": 18.61,
+        "pf": 1.3731,
+        "sharpe": 1.369
+      },
+      "robustness": 1.3653
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 301,
+        "win_pct": 59.14,
+        "ret_pct": 50.65,
+        "mdd_pct": 15.93,
+        "pf": 1.2941,
+        "sharpe": 1.178
+      },
+      "test": {
+        "trades": 234,
+        "win_pct": 60.26,
+        "ret_pct": 61.77,
+        "mdd_pct": 16.53,
+        "pf": 1.4227,
+        "sharpe": 1.867
+      },
+      "robustness": 1.3554
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 3,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 220,
+        "win_pct": 56.36,
+        "ret_pct": 31.33,
+        "mdd_pct": 14.89,
+        "pf": 1.25,
+        "sharpe": 0.866
+      },
+      "test": {
+        "trades": 172,
+        "win_pct": 59.88,
+        "ret_pct": 47.26,
+        "mdd_pct": 17.32,
+        "pf": 1.4477,
+        "sharpe": 1.694
+      },
+      "robustness": 1.3416
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 7,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 121,
+        "win_pct": 65.29,
+        "ret_pct": 57.2,
+        "mdd_pct": 9.35,
+        "pf": 2.022,
+        "sharpe": 1.818
+      },
+      "test": {
+        "trades": 77,
+        "win_pct": 54.55,
+        "ret_pct": -1.62,
+        "mdd_pct": 14.52,
+        "pf": 0.9679,
+        "sharpe": -0.029
+      },
+      "robustness": 1.3091
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 3,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 295,
+        "win_pct": 57.97,
+        "ret_pct": 73.62,
+        "mdd_pct": 12.8,
+        "pf": 1.391,
+        "sharpe": 1.519
+      },
+      "test": {
+        "trades": 230,
+        "win_pct": 57.83,
+        "ret_pct": 23.53,
+        "mdd_pct": 17.99,
+        "pf": 1.1838,
+        "sharpe": 0.888
+      },
+      "robustness": 1.2791
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 7,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 319,
+        "win_pct": 60.5,
+        "ret_pct": 63.17,
+        "mdd_pct": 13.46,
+        "pf": 1.3559,
+        "sharpe": 1.456
+      },
+      "test": {
+        "trades": 244,
+        "win_pct": 59.02,
+        "ret_pct": 29.74,
+        "mdd_pct": 16.64,
+        "pf": 1.203,
+        "sharpe": 1.01
+      },
+      "robustness": 1.2749
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 10,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 162,
+        "win_pct": 59.88,
+        "ret_pct": 19.55,
+        "mdd_pct": 13.4,
+        "pf": 1.2152,
+        "sharpe": 0.725
+      },
+      "test": {
+        "trades": 128,
+        "win_pct": 59.38,
+        "ret_pct": 22.3,
+        "mdd_pct": 17.67,
+        "pf": 1.331,
+        "sharpe": 1.129
+      },
+      "robustness": 1.2705
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 5,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 391,
+        "win_pct": 58.06,
+        "ret_pct": 64.54,
+        "mdd_pct": 13.62,
+        "pf": 1.2736,
+        "sharpe": 1.315
+      },
+      "test": {
+        "trades": 284,
+        "win_pct": 60.56,
+        "ret_pct": 46.32,
+        "mdd_pct": 20.02,
+        "pf": 1.2652,
+        "sharpe": 1.387
+      },
+      "robustness": 1.2694
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 3,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 370,
+        "win_pct": 58.11,
+        "ret_pct": 72.17,
+        "mdd_pct": 15.02,
+        "pf": 1.3239,
+        "sharpe": 1.471
+      },
+      "test": {
+        "trades": 277,
+        "win_pct": 58.48,
+        "ret_pct": 34.68,
+        "mdd_pct": 19.21,
+        "pf": 1.2044,
+        "sharpe": 1.101
+      },
+      "robustness": 1.2613
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 5,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 202,
+        "win_pct": 62.38,
+        "ret_pct": 73.54,
+        "mdd_pct": 8.57,
+        "pf": 1.6932,
+        "sharpe": 1.771
+      },
+      "test": {
+        "trades": 137,
+        "win_pct": 59.85,
+        "ret_pct": -1.84,
+        "mdd_pct": 17.26,
+        "pf": 0.9767,
+        "sharpe": -0.01
+      },
+      "robustness": 1.2388
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 7,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 169,
+        "win_pct": 63.91,
+        "ret_pct": 71.52,
+        "mdd_pct": 9.0,
+        "pf": 1.9256,
+        "sharpe": 2.038
+      },
+      "test": {
+        "trades": 106,
+        "win_pct": 56.6,
+        "ret_pct": -7.63,
+        "mdd_pct": 19.65,
+        "pf": 0.8984,
+        "sharpe": -0.309
+      },
+      "robustness": 1.2252
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 10,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 242,
+        "win_pct": 59.5,
+        "ret_pct": 31.9,
+        "mdd_pct": 15.87,
+        "pf": 1.2311,
+        "sharpe": 0.946
+      },
+      "test": {
+        "trades": 189,
+        "win_pct": 57.14,
+        "ret_pct": 21.44,
+        "mdd_pct": 20.39,
+        "pf": 1.2156,
+        "sharpe": 0.887
+      },
+      "robustness": 1.2233
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 7,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 208,
+        "win_pct": 62.5,
+        "ret_pct": 70.0,
+        "mdd_pct": 12.11,
+        "pf": 1.6628,
+        "sharpe": 1.692
+      },
+      "test": {
+        "trades": 140,
+        "win_pct": 57.86,
+        "ret_pct": -3.84,
+        "mdd_pct": 18.25,
+        "pf": 0.9581,
+        "sharpe": -0.093
+      },
+      "robustness": 1.2157
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 10,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 215,
+        "win_pct": 61.4,
+        "ret_pct": 59.34,
+        "mdd_pct": 9.82,
+        "pf": 1.5189,
+        "sharpe": 1.542
+      },
+      "test": {
+        "trades": 152,
+        "win_pct": 57.89,
+        "ret_pct": -3.4,
+        "mdd_pct": 23.62,
+        "pf": 0.97,
+        "sharpe": -0.051
+      },
+      "robustness": 1.1839
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 7,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 400,
+        "win_pct": 58.25,
+        "ret_pct": 48.25,
+        "mdd_pct": 19.31,
+        "pf": 1.2173,
+        "sharpe": 1.078
+      },
+      "test": {
+        "trades": 298,
+        "win_pct": 58.39,
+        "ret_pct": 26.6,
+        "mdd_pct": 18.18,
+        "pf": 1.1501,
+        "sharpe": 0.884
+      },
+      "robustness": 1.1827
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 10,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 332,
+        "win_pct": 58.43,
+        "ret_pct": 29.89,
+        "mdd_pct": 15.39,
+        "pf": 1.1559,
+        "sharpe": 0.813
+      },
+      "test": {
+        "trades": 255,
+        "win_pct": 57.25,
+        "ret_pct": 20.06,
+        "mdd_pct": 21.71,
+        "pf": 1.145,
+        "sharpe": 0.759
+      },
+      "robustness": 1.1504
+    },
+    {
+      "params": {
+        "top_n_stocks": 10,
+        "ranking_window": 10,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 83,
+        "win_pct": 63.86,
+        "ret_pct": 15.87,
+        "mdd_pct": 5.78,
+        "pf": 1.38,
+        "sharpe": 0.889
+      },
+      "test": {
+        "trades": 55,
+        "win_pct": 58.18,
+        "ret_pct": -2.34,
+        "mdd_pct": 11.74,
+        "pf": 0.9311,
+        "sharpe": -0.131
+      },
+      "robustness": 1.112
+    },
+    {
+      "params": {
+        "top_n_stocks": 20,
+        "ranking_window": 10,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 176,
+        "win_pct": 61.36,
+        "ret_pct": 49.76,
+        "mdd_pct": 12.86,
+        "pf": 1.5698,
+        "sharpe": 1.473
+      },
+      "test": {
+        "trades": 118,
+        "win_pct": 54.24,
+        "ret_pct": -11.94,
+        "mdd_pct": 20.03,
+        "pf": 0.8554,
+        "sharpe": -0.525
+      },
+      "robustness": 1.1074
+    },
+    {
+      "params": {
+        "top_n_stocks": 25,
+        "ranking_window": 10,
+        "variant": "default",
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 408,
+        "win_pct": 57.11,
+        "ret_pct": 39.21,
+        "mdd_pct": 15.43,
+        "pf": 1.1666,
+        "sharpe": 0.944
+      },
+      "test": {
+        "trades": 314,
+        "win_pct": 57.96,
+        "ret_pct": 10.2,
+        "mdd_pct": 21.01,
+        "pf": 1.0533,
+        "sharpe": 0.436
+      },
+      "robustness": 1.1071
+    },
+    {
+      "params": {
+        "top_n_stocks": 15,
+        "ranking_window": 10,
+        "variant": "candidate",
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5
+      },
+      "train": {
+        "trades": 127,
+        "win_pct": 62.99,
+        "ret_pct": 25.9,
+        "mdd_pct": 6.23,
+        "pf": 1.4375,
+        "sharpe": 1.143
+      },
+      "test": {
+        "trades": 80,
+        "win_pct": 55.0,
+        "ret_pct": -6.6,
+        "mdd_pct": 12.78,
+        "pf": 0.865,
+        "sharpe": -0.341
+      },
+      "robustness": 1.0801
+    }
+  ]
+}

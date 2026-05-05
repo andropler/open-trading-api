@@ -1,0 +1,166 @@
+{
+  "data_path": "/Users/benjamin/personal_workspace/shared_data/kr_stocks/daily/069500.KS_1d.parquet",
+  "period": {
+    "start": "2018-01-01",
+    "end": "2022-12-31"
+  },
+  "rule": "m_bull_20_60: y_close > y_SMA20 AND y_SMA20 > y_SMA60 AND y_5d_return > 0 (yesterday-only)",
+  "summary": {
+    "total_days": 1222,
+    "trade_days": 289,
+    "flat_days": 933,
+    "flat_pct": 76.35,
+    "bh_return_pct": 0.27,
+    "bh_mdd_pct": -38.08,
+    "bh_sharpe": 0.101,
+    "strat_return_pct": 15.42,
+    "strat_mdd_pct": -20.12,
+    "strat_sharpe": 0.395,
+    "regime_avoided_dd_pct": -17.96
+  },
+  "yearly": [
+    {
+      "year": 2018,
+      "total_days": 241,
+      "trade_days": 18,
+      "flat_days": 223,
+      "flat_pct": 92.53,
+      "bh_return_pct": -17.31,
+      "strat_return_pct": -2.11,
+      "bh_mdd_pct": -21.99,
+      "strat_mdd_pct": -3.47
+    },
+    {
+      "year": 2019,
+      "total_days": 245,
+      "trade_days": 70,
+      "flat_days": 175,
+      "flat_pct": 71.43,
+      "bh_return_pct": 14.43,
+      "strat_return_pct": 0.92,
+      "bh_mdd_pct": -12.88,
+      "strat_mdd_pct": -8.38
+    },
+    {
+      "year": 2020,
+      "total_days": 246,
+      "trade_days": 126,
+      "flat_days": 120,
+      "flat_pct": 48.78,
+      "bh_return_pct": 35.54,
+      "strat_return_pct": 32.34,
+      "bh_mdd_pct": -34.64,
+      "strat_mdd_pct": -7.52
+    },
+    {
+      "year": 2021,
+      "total_days": 248,
+      "trade_days": 65,
+      "flat_days": 183,
+      "flat_pct": 73.79,
+      "bh_return_pct": 2.99,
+      "strat_return_pct": -7.76,
+      "bh_mdd_pct": -14.62,
+      "strat_mdd_pct": -17.05
+    },
+    {
+      "year": 2022,
+      "total_days": 242,
+      "trade_days": 10,
+      "flat_days": 232,
+      "flat_pct": 95.87,
+      "bh_return_pct": -24.09,
+      "strat_return_pct": -4.29,
+      "bh_mdd_pct": -28.07,
+      "strat_mdd_pct": -4.46
+    }
+  ],
+  "bear_windows": [
+    {
+      "label": "2018_q4_crash",
+      "start": "2018-10-01",
+      "end": "2018-12-31",
+      "total_days": 62,
+      "trade_days": 2,
+      "flat_days": 60,
+      "flat_pct": 96.77,
+      "bh_return_pct": -11.5,
+      "bh_mdd_pct": -13.11,
+      "strat_return_pct": -1.23,
+      "strat_mdd_pct": -1.21,
+      "regime_avoided_dd_pct": -11.9
+    },
+    {
+      "label": "2020_covid",
+      "start": "2020-02-15",
+      "end": "2020-04-15",
+      "total_days": 42,
+      "trade_days": 2,
+      "flat_days": 40,
+      "flat_pct": 95.24,
+      "bh_return_pct": -17.91,
+      "bh_mdd_pct": -33.91,
+      "strat_return_pct": -1.66,
+      "strat_mdd_pct": -1.58,
+      "regime_avoided_dd_pct": -32.33
+    },
+    {
+      "label": "2022_bear",
+      "start": "2022-01-01",
+      "end": "2022-12-31",
+      "total_days": 242,
+      "trade_days": 10,
+      "flat_days": 232,
+      "flat_pct": 95.87,
+      "bh_return_pct": -24.09,
+      "bh_mdd_pct": -28.07,
+      "strat_return_pct": -4.29,
+      "strat_mdd_pct": -4.46,
+      "regime_avoided_dd_pct": -23.61
+    }
+  ],
+  "bull_windows": [
+    {
+      "label": "2019_recovery",
+      "start": "2019-01-01",
+      "end": "2019-12-31",
+      "total_days": 245,
+      "trade_days": 70,
+      "flat_days": 175,
+      "flat_pct": 71.43,
+      "bh_return_pct": 14.43,
+      "bh_mdd_pct": -12.88,
+      "strat_return_pct": 0.92,
+      "strat_mdd_pct": -8.38,
+      "regime_avoided_dd_pct": -4.5
+    },
+    {
+      "label": "2020_h2_recovery",
+      "start": "2020-04-15",
+      "end": "2020-12-31",
+      "total_days": 174,
+      "trade_days": 107,
+      "flat_days": 67,
+      "flat_pct": 38.51,
+      "bh_return_pct": 60.16,
+      "bh_mdd_pct": -8.5,
+      "strat_return_pct": 33.81,
+      "strat_mdd_pct": -7.52,
+      "regime_avoided_dd_pct": -0.98
+    },
+    {
+      "label": "2021_rally",
+      "start": "2021-01-01",
+      "end": "2021-06-30",
+      "total_days": 123,
+      "trade_days": 51,
+      "flat_days": 72,
+      "flat_pct": 58.54,
+      "bh_return_pct": 13.0,
+      "bh_mdd_pct": -7.3,
+      "strat_return_pct": -6.47,
+      "strat_mdd_pct": -16.11,
+      "regime_avoided_dd_pct": 8.81
+    }
+  ]
+}
