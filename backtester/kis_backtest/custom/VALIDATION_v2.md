@@ -620,6 +620,124 @@ cd backtester
 - `/Users/benjamin/personal_workspace/shared_data/kr_stocks/5m/` (1,554 종, 2025-04~2026-04)
 - `/Users/benjamin/personal_workspace/shared_data/kr_stocks/daily/069500.KS_1d.parquet` (KODEX 200, 2007~2026)
 
+## 7. 최종 Paper 운용 전략 채택 (2026-05-05)
+
+### 7.1 결정
+
+**Paper 운용 채택 (50:50 자본 분배)**:
+1. **5m Composite (`kr_5m_composite_mbull2060`)** — 점수 6/10. 약세 regime 자동 관망 + 단일 보유 + 3-tier 신호.
+2. **V4.1 (`kr_intraday_breakout_v41`) with paper-trading defaults** — 점수 6/10. F2 best_universe(top_n=10, vol_multiplier=3.0, sl_pct=7.0, trail_pct=0.5)를 새 디폴트로 적용.
+
+**제외**:
+- V4.1 v1 디폴트(top_n=15, vol_multiplier=2.0, sl_pct=5.0): 단일 fit 의심, robustness 1.46. paper 운용 부적합.
+- V4.1 candidate(top_n=15, vol_multiplier=3.0, sl_pct=7.0): best_universe와 동일 패턴이지만 universe가 더 넓음. robustness 1.71로 best_universe(2.27) 대비 떨어짐.
+- 5m ORB (`kr_intraday_orb_5m`): 이미 §5에서 단독 폐기 결정. baseline 비교용만 보존.
+
+### 7.2 두 전략 결합의 정량 근거 (correlation analysis)
+
+스크립트: `backtester/scripts/validation_v2/correlation_v41_vs_composite.py`
+기간: 2025-06-20 ~ 2026-04-16 (Composite trades 범위, ~10개월)
+
+#### 일별 PnL Pearson 상관계수
+
+| V4.1 변형 | 상관계수 | 분산 효과 |
+|---|:--:|:--:|
+| v1 default (top15/V2.0/SL5.0) | 0.111 | 약함 |
+| candidate (top15/V3.0/SL7.0) | 0.058 | 강함 |
+| **best_universe (top10/V3.0/SL7.0)** ← 채택 | **0.053** | **가장 강함** |
+
+→ best_universe 변형이 Composite과 가장 독립적. 50:50 결합 시 변동성 ~28% 감소,
+같은 기대수익에서 Sharpe ~1.4배 개선 (이론치).
+
+#### 진입 시간대 (완전 분리)
+
+| 시각 | V4.1 best_universe | Composite |
+|:--:|:--:|:--:|
+| 09시 | 0 | **15** |
+| 10시 | 0 | **54** |
+| 11시 | **27** | 0 |
+| 12시 | **4** | 0 |
+
+→ Composite은 09~10시 (개장 직후 ORB·VWAP reclaim·이벤트), V4.1은 11~12시 (1H 봉 돌파 확인 후).
+체결 인프라 충돌 없음.
+
+#### 매매일 overlap
+
+| | 일수 |
+|---|:--:|
+| V4.1 only | 15 |
+| 둘 다 | 10 |
+| Composite only | 49 |
+| Jaccard | 0.13 |
+
+→ 매매일 overlap 13%만 — 다른 날에 매매. 분산 매우 강함.
+
+#### 종목 중복
+
+같은 날 + 같은 ticker 매매: V4.1 31 trades 중 **3건 (9.7%)**.
+포지션 중복 위험 미미.
+
+#### 약세 regime 일자 거동
+
+V4.1 best_universe는 KODEX 200 m_bull_20_60 regime이 false인 날에도 매매:
+- regime flat day 매매: 4 / 31 (**12.9%**)
+- regime active day 매매: 27 / 31 (87.1%)
+
+→ V4.1은 명시적 regime 필터가 없지만, **vol×3.0 strict 거래량 필터가 비명시적 regime 효과**를 만들어 냄.
+약세장 진입을 자연스럽게 줄임. Composite의 명시적 regime 필터(95%+ 약세 관망)와 결합하면
+포트폴리오 전체 약세 노출 더 줄어듦.
+
+### 7.3 자본 분배 권고
+
+**기본 권고: 50:50**
+
+자본 1억 가정:
+- **Composite**: 5천만원 (max_positions=1로 단일 종목 fully 투입)
+- **V4.1**: 5천만원 (max_positions=3로 3등분 → 종목당 ~1,667만원)
+
+자본 효율 차이가 의도적 — V4.1이 분산 보유로 종목별 변동 흡수, Composite은 단일 강한 신호 집중.
+
+**다른 옵션**:
+- 60:40 (Composite 우선) — 약세 regime 회피력 극대화
+- 40:40:20 (Composite : V4.1 : 현금 buffer) — 보수적
+
+### 7.4 Paper 운용 통과 기준 (3개월)
+
+운용 시작 후 **3개월 결과**가 다음을 만족하면 라이브 격상 검토:
+
+| 메트릭 | 합산 통과 | 개별 통과 |
+|--------|:--:|:--:|
+| PF | ≥ 1.7 | Composite ≥ 2.0, V4.1 ≥ 1.7 |
+| Sharpe | ≥ 1.5 | – |
+| MDD | ≤ 12% | – |
+| 일별 PnL 상관계수 | ≤ 0.2 | – (분산 효과 유지 검증) |
+
+**경고 신호 (즉시 검토)**:
+- 어느 한쪽 전략 PF < 1.0 (3개월 누적)
+- 일별 PnL 상관계수 > 0.4 (분산 효과 깨짐)
+- V4.1 regime flat day 매매 비율 > 25% (백테스트 13% 대비 크게 증가)
+
+### 7.5 코드 변경
+
+이 채택 결정으로 다음 변경이 적용됨:
+
+```python
+# backtester/kis_backtest/custom/kr_intraday_breakout.py
+@dataclass
+class BreakoutV41Params:
+    # v1 → v2 변경
+    vol_multiplier: float = 3.0     # was 2.0
+    sl_pct: float = 7.0              # was 5.0
+    top_n_stocks: int = 10           # was 15
+    # 나머지 동일
+```
+
+`examples/kr_intraday_breakout_v41.py`는 `BreakoutV41Params()`를 디폴트로 호출하므로 변경 불필요 — 자동으로 새 디폴트 적용됨.
+
+ORB 모듈은 baseline 보존 결정(§5)으로 그대로 유지. 단 `intraday_orb.py` docstring + README에 BASELINE ONLY 경고 명시됨 (v2 작업).
+
+---
+
 ## 부록 B. v1 → v2 변경 요약
 
 - §1 P1 — V4.1 진짜 OOS 비용 stress (신규, 정량 측정)

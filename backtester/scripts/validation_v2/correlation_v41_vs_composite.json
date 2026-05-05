@@ -1,0 +1,157 @@
+{
+  "period": {
+    "start": "2025-06-20",
+    "end": "2026-04-16"
+  },
+  "composite": {
+    "trades": 69,
+    "tickers": 61,
+    "trade_days": 59,
+    "total_pnl_krw": 16178186.044000011,
+    "win_rate": 0.6811594202898551,
+    "entry_hour_dist": {
+      "9": 15,
+      "10": 54
+    }
+  },
+  "v41_variants": {
+    "default": {
+      "params": {
+        "breakout_lookback": 4,
+        "vol_multiplier": 2.0,
+        "sl_pct": 5.0,
+        "trail_pct": 0.5,
+        "top_n_stocks": 15,
+        "ranking_window": 5
+      },
+      "trades": 113,
+      "tickers": 47,
+      "trade_days": 86,
+      "total_pnl_krw": 6234840.020777344,
+      "win_rate": 0.6548672566371682,
+      "entry_hour_dist": {
+        "11": 95,
+        "12": 18
+      },
+      "trades_on_regime_active_days": 85,
+      "trades_on_regime_flat_days": 26,
+      "regime_flat_pct": 23.01
+    },
+    "candidate": {
+      "params": {
+        "breakout_lookback": 4,
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5,
+        "top_n_stocks": 15,
+        "ranking_window": 5
+      },
+      "trades": 51,
+      "tickers": 32,
+      "trade_days": 42,
+      "total_pnl_krw": 2372142.2432929683,
+      "win_rate": 0.6470588235294118,
+      "entry_hour_dist": {
+        "11": 44,
+        "12": 7
+      },
+      "trades_on_regime_active_days": 43,
+      "trades_on_regime_flat_days": 7,
+      "regime_flat_pct": 13.73
+    },
+    "best_universe": {
+      "params": {
+        "breakout_lookback": 4,
+        "vol_multiplier": 3.0,
+        "sl_pct": 7.0,
+        "trail_pct": 0.5,
+        "top_n_stocks": 10,
+        "ranking_window": 5
+      },
+      "trades": 31,
+      "tickers": 20,
+      "trade_days": 25,
+      "total_pnl_krw": 2476132.179249999,
+      "win_rate": 0.7741935483870968,
+      "entry_hour_dist": {
+        "11": 27,
+        "12": 4
+      },
+      "trades_on_regime_active_days": 26,
+      "trades_on_regime_flat_days": 4,
+      "regime_flat_pct": 12.9
+    }
+  },
+  "comparison": {
+    "default": {
+      "daily_pnl_correlation_pearson": 0.1111,
+      "trade_days_overlap_jaccard": 0.3063,
+      "trade_days_v41_only": 52,
+      "trade_days_composite_only": 25,
+      "trade_days_both": 34,
+      "same_day_same_ticker_count": 4,
+      "same_day_same_ticker_examples": [
+        {
+          "date": "2025-07-31",
+          "ticker": "042660"
+        },
+        {
+          "date": "2025-09-25",
+          "ticker": "466100"
+        },
+        {
+          "date": "2025-11-03",
+          "ticker": "277810"
+        },
+        {
+          "date": "2025-12-26",
+          "ticker": "005930"
+        }
+      ]
+    },
+    "candidate": {
+      "daily_pnl_correlation_pearson": 0.0576,
+      "trade_days_overlap_jaccard": 0.2469,
+      "trade_days_v41_only": 22,
+      "trade_days_composite_only": 39,
+      "trade_days_both": 20,
+      "same_day_same_ticker_count": 3,
+      "same_day_same_ticker_examples": [
+        {
+          "date": "2025-07-31",
+          "ticker": "042660"
+        },
+        {
+          "date": "2025-09-25",
+          "ticker": "466100"
+        },
+        {
+          "date": "2025-11-03",
+          "ticker": "277810"
+        }
+      ]
+    },
+    "best_universe": {
+      "daily_pnl_correlation_pearson": 0.0532,
+      "trade_days_overlap_jaccard": 0.1351,
+      "trade_days_v41_only": 15,
+      "trade_days_composite_only": 49,
+      "trade_days_both": 10,
+      "same_day_same_ticker_count": 3,
+      "same_day_same_ticker_examples": [
+        {
+          "date": "2025-07-31",
+          "ticker": "042660"
+        },
+        {
+          "date": "2025-09-25",
+          "ticker": "466100"
+        },
+        {
+          "date": "2026-01-02",
+          "ticker": "319400"
+        }
+      ]
+    }
+  }
+}

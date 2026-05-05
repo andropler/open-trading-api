@@ -46,15 +46,24 @@ def _as_date(value: date | datetime | str | None) -> Optional[date]:
 
 @dataclass
 class BreakoutV41Params:
-    """Validated defaults from alpha-hunter KR 1H Breakout V4.1."""
+    """V4.1 paper-trading defaults (VALIDATION_v2.md §3 + §7).
+
+    Defaults updated 2026-05-05 to the F2 best_universe variant:
+        - vol_multiplier 2.0 → 3.0  (strict volume filter, high-quality breakouts only)
+        - sl_pct 5.0 → 7.0           (wider stop reduces whipsaw, lowers MDD)
+        - top_n_stocks 15 → 10       (tighter universe, robustness 2.27 vs 1.46)
+
+    TRAIN(진짜 OOS, 2023-03~2024-12) PF 2.20 / TEST PF 2.35, MDD 7.3% / 10.2%.
+    Robustness (harmonic mean of TRAIN/TEST PF) 2.27 — F2 32-combo grid에서 1위.
+    """
 
     breakout_lookback: int = 4
-    vol_multiplier: float = 2.0
+    vol_multiplier: float = 3.0
     vol_avg_window: int = 20
-    sl_pct: float = 5.0
+    sl_pct: float = 7.0
     trail_pct: float = 0.5
     trail_activation: float = 0.5
-    top_n_stocks: int = 15
+    top_n_stocks: int = 10
     ranking_window: int = 5
     entry_hour_start: int = 10
     entry_hour_end: int = 11
