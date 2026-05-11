@@ -65,10 +65,15 @@ def fetch_volume_rank(
     top_n: int = 30,
     min_price: int = 5_000,
     exclude_etf: bool = True,
+    allowed_tickers: set[str] | None = None,
 ) -> list[RankingEntry]:
     """KIS volume-rank 호출 → 상위 N개 종목.
 
-    KIS 응답은 보통 30개까지 반환. top_n>30 이면 30 까지만.
+    KIS 응답은 보통 30개까지 반환. top_n>30 이면 응답 한계까지만.
+
+    allowed_tickers: 보통주 화이트리스트 (예: _stock_list.parquet 의 종목코드 집합).
+    지정 시 응답 중 해당 set 에 없는 ticker(ETF 등) 제외. rank 는 필터 후
+    1부터 재부여.
     """
     if market not in _MARKET_CODE:
         raise ValueError(f"market must be ALL/KOSPI/KOSDAQ, got {market!r}")
@@ -103,13 +108,14 @@ def fetch_volume_rank(
         )
     rows = resp.get_output("output") or []
 
-    entries: list[RankingEntry] = []
-    for i, row in enumerate(rows[:top_n], start=1):
+    # 1) raw 파싱 (필터 전)
+    parsed: list[RankingEntry] = []
+    for i, row in enumerate(rows, start=1):
         ticker = str(row.get("mksc_shrn_iscd", "")).strip()
         if not ticker:
             continue
         try:
-            entries.append(
+            parsed.append(
                 RankingEntry(
                     ticker=ticker,
                     name=str(row.get("hts_kor_isnm", "")).strip(),
@@ -121,7 +127,26 @@ def fetch_volume_rank(
             )
         except (TypeError, ValueError) as e:
             logger.warning("skip malformed row %s: %s", row, e)
-    return entries
+
+    # 2) allowed_tickers 필터 (ETF 제외 등) + rank 재부여
+    if allowed_tickers is not None:
+        kept = [e for e in parsed if e.ticker in allowed_tickers]
+    else:
+        kept = parsed
+
+    out: list[RankingEntry] = []
+    for new_rank, e in enumerate(kept[:top_n], start=1):
+        out.append(
+            RankingEntry(
+                ticker=e.ticker,
+                name=e.name,
+                price=e.price,
+                volume=e.volume,
+                trading_value=e.trading_value,
+                rank=new_rank,
+            )
+        )
+    return out
 
 
 __all__ = ["RankingEntry", "fetch_volume_rank"]

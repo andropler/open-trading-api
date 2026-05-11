@@ -113,6 +113,47 @@ class TestErrorPropagation:
             fetch_volume_rank(auth)
 
 
+class TestAllowedTickers:
+    def test_allowed_filter_excludes_etf(self):
+        # ETF 가 응답에 섞여있는 상황 시뮬 — allowed_tickers 에 보통주만 포함
+        rows = [
+            _row("005930", "삼성전자", 70000, 100, 1_000),
+            _row("069500", "KODEX 200", 30000, 100, 800),  # ETF
+            _row("000660", "SK하이닉스", 100000, 100, 600),
+            _row("122630", "KODEX 레버리지", 20000, 100, 400),  # ETF
+        ]
+        auth = FakeAuth(FakeResponse(output=rows))
+        allowed = {"005930", "000660"}  # 보통주만
+        entries = fetch_volume_rank(auth, top_n=10, allowed_tickers=allowed)
+        assert [e.ticker for e in entries] == ["005930", "000660"]
+        # rank 재부여 — 필터 후 1, 2
+        assert [e.rank for e in entries] == [1, 2]
+
+    def test_allowed_none_keeps_all(self):
+        rows = [
+            _row("005930", "삼성전자", 70000, 100, 1_000),
+            _row("069500", "KODEX 200", 30000, 100, 800),
+        ]
+        auth = FakeAuth(FakeResponse(output=rows))
+        entries = fetch_volume_rank(auth, top_n=10, allowed_tickers=None)
+        assert len(entries) == 2
+
+    def test_top_n_applied_after_filter(self):
+        # 응답 4개 → ETF 2개 제외 → 보통주 2개 → top_n=1 이면 1개만
+        rows = [
+            _row("005930", "삼성전자", 70000, 100, 1_000),
+            _row("069500", "KODEX", 30000, 100, 800),
+            _row("000660", "SK하이닉스", 100000, 100, 600),
+            _row("122630", "KODEX레버", 20000, 100, 400),
+        ]
+        auth = FakeAuth(FakeResponse(output=rows))
+        entries = fetch_volume_rank(
+            auth, top_n=1, allowed_tickers={"005930", "000660"}
+        )
+        assert len(entries) == 1
+        assert entries[0].ticker == "005930"
+
+
 class TestMalformedRows:
     def test_empty_ticker_skipped(self):
         rows = [

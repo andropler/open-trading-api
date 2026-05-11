@@ -38,8 +38,17 @@ def parse_args() -> argparse.Namespace:
         default=Path.home() / "KIS" / "live_state" / "universe.json",
         help="universe.json 저장 경로",
     )
+    p.add_argument("--top", type=int, default=50, help="상위 N (보통주 필터 후 기준)")
     p.add_argument(
-        "--top", type=int, default=30, help="상위 N (KIS 응답 최대 30)"
+        "--stock-list",
+        type=Path,
+        default=Path("/Users/benjamin/personal_workspace/shared_data/kr_stocks/_stock_list.parquet"),
+        help="보통주 마스터 parquet (ETF 자동 제외용). 비활성: --no-stock-list",
+    )
+    p.add_argument(
+        "--no-stock-list",
+        action="store_true",
+        help="stock_list 필터 비활성 — KIS 응답 그대로 (ETF 포함)",
     )
     p.add_argument(
         "--rank-by",
@@ -88,6 +97,16 @@ def main() -> int:
         is_paper=(config.mode == "vps"),
     )
 
+    allowed: set[str] | None = None
+    if not args.no_stock_list:
+        from kis_backtest.live.data.stock_list import load_stock_universe
+
+        allowed = load_stock_universe(args.stock_list)
+        print(
+            f"[build_universe] stock_list loaded: {len(allowed)} 종목 "
+            f"(ETF 등 자동 제외 활성)"
+        )
+
     entries = fetch_volume_rank(
         auth,
         market=args.market,
@@ -95,6 +114,7 @@ def main() -> int:
         top_n=args.top,
         min_price=args.min_price,
         exclude_etf=not args.include_etf,
+        allowed_tickers=allowed,
     )
     print(f"[build_universe] fetched {len(entries)} entries (top {args.top})")
 
