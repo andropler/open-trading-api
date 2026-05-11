@@ -78,6 +78,36 @@ def _hhmm_series(ts: pd.Series) -> pd.Series:
     return ts.dt.hour * 100 + ts.dt.minute
 
 
+def _normalize_daily(df: pd.DataFrame) -> pd.DataFrame:
+    """daily DataFrame의 'timestamp'/'date' 컬럼을 모두 'timestamp' 로 통일.
+
+    KISDailyFetcher 는 'date' 컬럼, alpha-hunter parquet 는 'timestamp' 컬럼 사용.
+    """
+    out = df.copy()
+    if "timestamp" not in out.columns:
+        if "date" not in out.columns:
+            raise ValueError("daily must have 'timestamp' or 'date' column")
+        out["timestamp"] = pd.to_datetime(out["date"])
+    else:
+        out["timestamp"] = pd.to_datetime(out["timestamp"])
+    return out
+
+
+def _normalize_intraday(df: pd.DataFrame) -> pd.DataFrame:
+    """intraday DataFrame의 'timestamp'/'time' 컬럼을 모두 'timestamp' 로 통일.
+
+    FiveMinuteBarBuffer 는 'time' 컬럼, alpha-hunter parquet 는 'timestamp' 컬럼.
+    """
+    out = df.copy()
+    if "timestamp" not in out.columns:
+        if "time" not in out.columns:
+            raise ValueError("intraday must have 'timestamp' or 'time' column")
+        out["timestamp"] = pd.to_datetime(out["time"])
+    else:
+        out["timestamp"] = pd.to_datetime(out["timestamp"])
+    return out
+
+
 def _compute_candidates(
     daily_data: dict[str, pd.DataFrame],
     intraday_data: dict[str, pd.DataFrame],
@@ -87,11 +117,13 @@ def _compute_candidates(
     by_date: dict[_date, dict[str, dict]] = {}
     p = params
     for ticker, raw_df in intraday_data.items():
+        if raw_df is None or raw_df.empty:
+            continue
         daily = daily_data.get(ticker)
         if daily is None or daily.empty:
             continue
-        d = daily.copy()
-        d["timestamp"] = pd.to_datetime(d["timestamp"])
+        d = _normalize_daily(daily)
+        raw_df = _normalize_intraday(raw_df)
         d["date"] = d["timestamp"].dt.date
         d["trading_value"] = d["close"].astype(float) * d["volume"].astype(float)
         d["event_return"] = d["close"].pct_change()
@@ -161,8 +193,9 @@ def _precompute_intraday(
     stock_days: dict[str, dict[_date, dict]] = {}
     p = params
     for ticker, raw_df in intraday_data.items():
-        df = raw_df.copy()
-        df["timestamp"] = pd.to_datetime(df["timestamp"])
+        if raw_df is None or raw_df.empty:
+            continue
+        df = _normalize_intraday(raw_df)
         df["date"] = df["timestamp"].dt.date
         df["hhmm"] = _hhmm_series(df["timestamp"])
         vol = df["volume"].astype(float).replace(0, np.nan)
@@ -226,7 +259,7 @@ def _confirmation_signals_for_date(
         gap_pass, gap_pct = _gap_ok(day, meta, params)
         if not gap_pass:
             continue
-        raw_df = intraday_data[ticker]
+        raw_df = _normalize_intraday(intraday_data[ticker])
         timestamps = pd.to_datetime(raw_df["timestamp"]).values
         for idx in range(len(day["hhmm"])):
             hhmm = int(day["hhmm"][idx])
