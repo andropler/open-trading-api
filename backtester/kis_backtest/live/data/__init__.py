@@ -10,6 +10,7 @@ from kis_backtest.live.data.cache import DailyOHLCVCache
 from kis_backtest.live.data.fetcher import DailyBarFetcher, refresh_market_index
 from kis_backtest.live.data.kis_fetcher import KISDailyFetcher
 from kis_backtest.live.data.price_subscriber import KISPriceSubscriber
+from kis_backtest.live.data.volume_rank import RankingEntry, fetch_volume_rank
 
 __all__ = [
     "DailyBarFetcher",
@@ -18,7 +19,9 @@ __all__ = [
     "FiveMinuteBarBuffer",
     "KISDailyFetcher",
     "KISPriceSubscriber",
+    "RankingEntry",
     "RealtimePriceLike",
+    "fetch_volume_rank",
     "floor_5m",
     "refresh_market_index",
 ]
