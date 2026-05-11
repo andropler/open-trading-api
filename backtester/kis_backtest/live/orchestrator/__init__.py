@@ -14,6 +14,7 @@ from kis_backtest.live.orchestrator.fill_subscriber import (
     KISFillSubscriber,
     hhmmss_to_iso,
 )
+from kis_backtest.live.orchestrator.builder import build_live_trader
 from kis_backtest.live.orchestrator.kis_executor import KISExecutorAdapter
 from kis_backtest.live.orchestrator.live_trader import LiveTrader, build_engines
 from kis_backtest.live.orchestrator.monitors import (
@@ -42,6 +43,7 @@ __all__ = [
     "OrderResult",
     "WsHealthMonitor",
     "build_engines",
+    "build_live_trader",
     "dry_run_trade_step",
     "execute_step",
     "handle_fill",
