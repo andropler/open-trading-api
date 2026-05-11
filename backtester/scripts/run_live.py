@@ -54,6 +54,13 @@ def parse_args() -> argparse.Namespace:
         help="--loop 모드에서 구독할 종목 코드 (쉼표 구분, 예: 005930,000660)",
     )
     p.add_argument(
+        "--universe-file",
+        type=Path,
+        default=None,
+        help="build_universe.py 가 만든 universe.json 경로. "
+        "--universe 와 동시 지정 시 --universe 우선",
+    )
+    p.add_argument(
         "--history-days",
         type=int,
         default=60,
@@ -107,6 +114,23 @@ def _morning_only(args) -> int:
     return 0
 
 
+def _resolve_universe(args) -> list[str]:
+    if args.universe:
+        return [s.strip() for s in args.universe.split(",") if s.strip()]
+    if args.universe_file:
+        import json
+
+        path = args.universe_file
+        if not path.exists():
+            raise FileNotFoundError(f"universe file not found: {path}")
+        data = json.loads(path.read_text(encoding="utf-8"))
+        symbols = data.get("symbols", [])
+        if not isinstance(symbols, list) or not symbols:
+            raise ValueError(f"universe file missing/empty 'symbols': {path}")
+        return [str(s).strip() for s in symbols if str(s).strip()]
+    return []
+
+
 def _loop_mode(args) -> int:
     from kis_backtest.live.orchestrator.builder import build_full_session
     from kis_backtest.live.orchestrator.trading_day import run_trading_day
@@ -115,14 +139,20 @@ def _loop_mode(args) -> int:
         LiveReclaimEngine,
     )
 
-    universe = [s.strip() for s in args.universe.split(",") if s.strip()]
+    try:
+        universe = _resolve_universe(args)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"[run_live] universe 로드 실패: {e}")
+        return 1
     if not universe:
-        print("[run_live] --loop 모드에는 --universe 가 필수")
+        print(
+            "[run_live] --loop 모드에는 --universe 또는 --universe-file 필수"
+        )
         return 1
 
     print(
         f"[run_live] loop mode env={args.env} asof={args.asof} "
-        f"universe={universe} hts_id={'set' if args.hts_id else 'yaml'}"
+        f"universe={len(universe)} symbols hts_id={'set' if args.hts_id else 'yaml'}"
     )
 
     reclaim = LiveReclaimEngine(params=IntradayReclaimParams())

@@ -87,7 +87,10 @@ def main() -> int:
     config = LiveConfig.from_env(args.env)
     sync_kis_yaml(config.kis)
 
-    from kis_backtest.live.data.volume_rank import fetch_volume_rank
+    from kis_backtest.live.data.volume_rank import (
+        RankingEntry,
+        fetch_volume_rank,
+    )
     from kis_backtest.providers.kis.auth import KISAuth
 
     auth = KISAuth(
@@ -107,16 +110,51 @@ def main() -> int:
             f"(ETF 등 자동 제외 활성)"
         )
 
-    entries = fetch_volume_rank(
-        auth,
-        market=args.market,
-        rank_by=args.rank_by,
-        top_n=args.top,
-        min_price=args.min_price,
-        exclude_etf=not args.include_etf,
-        allowed_tickers=allowed,
-    )
-    print(f"[build_universe] fetched {len(entries)} entries (top {args.top})")
+    # KIS volume-rank API 는 단일 호출 30개 한도. market=ALL 이면 KOSPI+KOSDAQ
+    # 별도 호출 후 합쳐 거래대금 기준 정렬해 top_n 적용 → 보통주만으로 50개 채움.
+    if args.market == "ALL":
+        markets_to_fetch = ["KOSPI", "KOSDAQ"]
+    else:
+        markets_to_fetch = [args.market]
+
+    raw_entries = []
+    for mkt in markets_to_fetch:
+        # market 별로는 top_n 그대로 요청 (API 가 알아서 30 한도)
+        sub = fetch_volume_rank(
+            auth,
+            market=mkt,
+            rank_by=args.rank_by,
+            top_n=args.top,
+            min_price=args.min_price,
+            exclude_etf=not args.include_etf,
+            allowed_tickers=allowed,
+        )
+        raw_entries.extend(sub)
+        print(f"[build_universe] {mkt}: {len(sub)} entries")
+
+    # 합친 후 거래대금 내림차순 → top_n 절단 → rank 재부여
+    dedup: dict[str, "RankingEntry"] = {}
+    for e in raw_entries:
+        # 동일 ticker 가 다른 market 에서 또 나오는 경우(거의 없음) trading_value 더 큰 쪽 유지
+        prev = dedup.get(e.ticker)
+        if prev is None or e.trading_value > prev.trading_value:
+            dedup[e.ticker] = e
+    merged = sorted(
+        dedup.values(), key=lambda e: e.trading_value, reverse=True
+    )[: args.top]
+
+    entries = [
+        RankingEntry(
+            ticker=e.ticker,
+            name=e.name,
+            price=e.price,
+            volume=e.volume,
+            trading_value=e.trading_value,
+            rank=i,
+        )
+        for i, e in enumerate(merged, start=1)
+    ]
+    print(f"[build_universe] merged top {len(entries)} (target {args.top})")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     payload = {

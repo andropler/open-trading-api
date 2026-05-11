@@ -1,0 +1,35 @@
+# 5m Composite 라이브 트레이더 cron 설정 예시 (WSL Ubuntu 또는 Linux)
+#
+# 설치: crontab -e 후 아래 내용 붙여넣기
+# 로그: ~/KIS/live_state/logs/cron-{build,run}-YYYY-MM-DD.log
+# 시간: KST (Asia/Seoul). TZ 설정: $ sudo timedatectl set-timezone Asia/Seoul
+#
+# REPO_ROOT 변수는 자신의 경로로 변경.
+#
+# WSL 에서 cron 서비스 활성화 필요:
+#   sudo service cron start
+#   sudo systemctl enable cron  (systemd 활성화돼 있으면)
+#
+# 또는 WSL 부팅 시 자동 시작: /etc/wsl.conf 에
+#   [boot]
+#   command="service cron start"
+
+REPO_ROOT=/home/benjamin/personal_workspace/open-trading-api/backtester
+PY=$REPO_ROOT/.venv/bin/python
+STATE=$HOME/KIS/live_state
+LOGDIR=$STATE/logs
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# 매 평일 08:00 KST — 거래대금 상위 50 universe 갱신
+0 8 * * 1-5  cd $REPO_ROOT && mkdir -p $LOGDIR && $PY -m scripts.build_universe --top 50 --out $STATE/universe.json >> $LOGDIR/cron-build-$(date +\%Y-\%m-\%d).log 2>&1
+
+# 매 평일 08:50 KST — 장중 main loop 시작 (15:35 KST 까지 실행)
+50 8 * * 1-5 cd $REPO_ROOT && mkdir -p $LOGDIR && $PY -m scripts.run_live --loop --universe-file $STATE/universe.json --asof $(date +\%Y-\%m-\%d) >> $LOGDIR/cron-run-$(date +\%Y-\%m-\%d).log 2>&1
+
+# 참고:
+# - --live-orders 옵션은 페이퍼 1주 검증 후에 켜기. 기본은 dry_run (실 주문 X)
+# - --no-telegram 디버그용
+# - HTS ID: ~/KIS/config/kis_devlp.yaml 의 my_htsid 또는 --hts-id 옵션
+# - 휴장일은 KIS API 가 빈 응답 → morning_routine 이 RuntimeError → 텔레그램 ERROR
+#   (휴장 캘린더 별도 필요시 후속 작업)
